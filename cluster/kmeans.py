@@ -27,12 +27,12 @@ class KMeans:
             ValueError: If k, tol, or max_iter have invalid values.
         """
         # Basic error handling
-        # if not isinstance(k, int) or k <= 0:
-        #     raise ValueError("k must be a positive integer.")
-        # if not isinstance(tol, float) or tol < 0:
-        #     raise ValueError("tol must be a positive float.")
-        # if not isinstance(max_iter, int) or max_iter <= 0:
-        #     raise ValueError("max_iter must be a positive integer.")
+        if not isinstance(k, int) or k <= 0:
+            raise ValueError("k must be a positive integer.")
+        if not isinstance(tol, float) or tol < 0:
+            raise ValueError("tol must be a positive float.")
+        if not isinstance(max_iter, int) or max_iter <= 0:
+            raise ValueError("max_iter must be a positive integer.")
 
         # Initialize attributes
         self.k = k
