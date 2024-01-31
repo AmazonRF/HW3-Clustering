@@ -38,9 +38,6 @@ class KMeans:
         self.k = k
         self.tol = tol
         self.max_iter = max_iter
-        # print("1. max_iter",self.max_iter)
-
-        # self.centers = None  # This will hold the centroids later
 
     def fit(self, mat: np.ndarray):
         """
@@ -63,25 +60,26 @@ class KMeans:
         
         self.original_data = np.copy(mat)
 
-        # Step 1: Randomly initialize k cluster centers
-        randomIniCenter = np.random.choice(mat.shape[0], self.k, replace=False)
-        self.centers = mat[randomIniCenter]
-        # print("1. randomIniCenter",self.centers)
+        # Step 1: Randomly initialize k cluster centers from exist data point
 
+        # randomIniCenter = np.random.choice(mat.shape[0], self.k, replace=False)
+        # self.centers = mat[randomIniCenter]
+
+        # Step 1: Randomly initialize k cluster centers from real random seed
+        min_vals = np.min(mat, axis=0)
+        max_vals = np.max(mat, axis=0)
+        random_seeds = np.random.uniform(min_vals, max_vals, (self.k, mat.shape[1]))
+        self.centers = random_seeds
+
+        print("r",self.centers,random_seeds)
 
         for iter in range(self.max_iter):
-            # Step 2: Assign each data point to the nearest cluster center
-            # assignments = self._assign_points_to_centers(mat)
-
-            # # Step 3: Recalculate the cluster centers
-            # new_centers = np.array([mat[assignments == k].mean(axis=0) for k in range(self.k)])
-
+            # # Step 2: Recalculate the cluster centers
             new_centers = self.get_centroids()
             self.new_centers = new_centers
             # Check for convergence (if centers do not change significantly)
             if np.allclose(self.centers, self.new_centers, atol=self.tol):
                 break
-
             self.centers = new_centers
 
     def predict(self, mat: np.ndarray) -> np.ndarray:
