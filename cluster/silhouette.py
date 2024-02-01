@@ -8,7 +8,9 @@ class Silhouette:
         inputs:
             none
         """
-        
+        # self.outscore: mean Silhouette score
+        # self.perpointscore: Silhouette score
+
 
     def score(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
         """
@@ -40,5 +42,8 @@ class Silhouette:
         
         # Calculate silhouette score for each point
         s = (b - a) / np.maximum(a, b)
+
+        #output
         self.outscore = np.mean(s)
+        self.perpointscore = s
         return s
