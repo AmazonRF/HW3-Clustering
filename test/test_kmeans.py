@@ -41,7 +41,12 @@ def test_cluster_number():
     t_clusters, t_labels = make_clusters(k=4)
     new = KMeans(4)
     new.fit(t_clusters)
+    labels = new.predict(t_clusters)
+    assert len(set(labels)) == 4
 
-
+def test_kmeanspp():
+    t_clusters, t_labels = make_clusters(k=4)
+    new = KMeans(4)
+    new.fit(t_clusters,kmeanspp=1)
     labels = new.predict(t_clusters)
     assert len(set(labels)) == 4
