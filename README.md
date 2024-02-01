@@ -20,8 +20,10 @@ My result:
 # Initialization
 >>> new = KMeans(k)
 
-# Fit data into the model
+# Fit data into the kmeans model
 >>> new.fit(your_data)
+# Fit data into the kmeans++ model
+>>> new.fit(your_data,kmeanspp = 1)
 
 # Prediction
 >>> your_labels = new.predict(your_data)

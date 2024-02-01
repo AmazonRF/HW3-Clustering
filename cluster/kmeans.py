@@ -39,7 +39,7 @@ class KMeans:
         self.tol = tol
         self.max_iter = max_iter
 
-    def fit(self, mat: np.ndarray):
+    def fit(self, mat: np.ndarray, kmeanspp =0):
         """
         Fits the kmeans algorithm onto a provided 2D matrix.
         As a bit of background, this method should not return anything.
@@ -60,18 +60,23 @@ class KMeans:
         
         self.original_data = np.copy(mat)
 
+        if kmeanspp == 0:
         # Step 1: Randomly initialize k cluster centers from exist data point
 
         # randomIniCenter = np.random.choice(mat.shape[0], self.k, replace=False)
         # self.centers = mat[randomIniCenter]
 
         # Step 1: Randomly initialize k cluster centers from real random seed
-        min_vals = np.min(mat, axis=0)
-        max_vals = np.max(mat, axis=0)
-        random_seeds = np.random.uniform(min_vals, max_vals, (self.k, mat.shape[1]))
-        self.centers = random_seeds
+            min_vals = np.min(mat, axis=0)
+            max_vals = np.max(mat, axis=0)
+            random_seeds = np.random.uniform(min_vals, max_vals, (self.k, mat.shape[1]))
+            self.centers = random_seeds
 
-        print("r",self.centers,random_seeds)
+            print("r",self.centers,random_seeds)
+
+        else:
+            print("kmeans ++:")
+            self.centers = kmeans_plusplus_init(self)
 
         for iter in range(self.max_iter):
             # # Step 2: Recalculate the cluster centers
@@ -136,3 +141,44 @@ class KMeans:
         distances = np.sqrt(((self.original_data - self.centers[:, np.newaxis])**2).sum(axis=2))
         return np.argmin(distances, axis=0)
     
+    def kmeanspp_iniSeed():
+        import numpy as np
+
+def kmeans_plusplus_init(self):
+    """
+    Initialize centroids using the k-means++ algorithm.
+
+    Args:
+    - X (np.ndarray): The data points for clustering.
+    - k (int): The number of centroids (clusters).
+
+    Returns:
+    - np.ndarray: An array of k centroids.
+    """
+    n_samples, n_features = self.original_data.shape
+
+    # Step 1: Randomly choose the first centroid from the data points
+    centroids = [self.original_data[np.random.randint(n_samples)]]
+
+    for _ in range(1, self.k):
+        # Step 2: Calculate the squared distance from each point to its nearest centroid
+        distances = np.array([min([np.linalg.norm(x - centroid)**2 for centroid in centroids]) for x in self.original_data])
+
+        # Step 3: Choose the next centroid
+        probabilities = distances / distances.sum()
+        cumulative_probabilities = np.cumsum(probabilities)
+        r = np.random.rand()
+
+        for j, p in enumerate(cumulative_probabilities):
+            if r < p:
+                next_centroid = self.original_data[j]
+                break
+
+        centroids.append(next_centroid)
+
+    return np.array(centroids)
+
+# Example usage
+# X = np.array([...]) # Your data points
+# k = 3  # Number of clusters
+# initial_centroids = kmeans_plusplus_init(X, k)
