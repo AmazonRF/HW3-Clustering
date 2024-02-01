@@ -39,14 +39,16 @@ class Silhouette:
         # Calculate a and b for each point
         a = np.array([np.mean(all_distances[i, y == y[i]]) for i in range(X.shape[0])])
 
-        test1 = [np.min([np.mean(all_distances[i, y == label]) for label in range(k) if label != y[i]]) for i in range(X.shape[0])]
+        # b = np.array([np.min([np.mean(all_distances[i, labels == label]) for label in range(k) if label != labels[i]]) for i in range(X.shape[0])])
+    
+         # Calculate silhouette score for each point
         b = []
         for i in range(X.shape[0]):
+            b_value = []
             for label in range(k):
                 if label != y[i]:
-                    #distance to other cluster
-                    b_value = np.min([np.mean(all_distances[i, y == label])])
-                    b.append(b_value)
+                    b_value.append([np.mean(all_distances[i, y == label])])
+            b.append(np.min(b_value))
 
         b = np.array(b)
         
