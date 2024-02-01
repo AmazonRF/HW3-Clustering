@@ -39,9 +39,7 @@ class Silhouette:
         # Calculate a and b for each point
         a = np.array([np.mean(all_distances[i, y == y[i]]) for i in range(X.shape[0])])
 
-        # b = np.array([np.min([np.mean(all_distances[i, labels == label]) for label in range(k) if label != labels[i]]) for i in range(X.shape[0])])
-    
-         # Calculate silhouette score for each point
+        # Calculate silhouette score for each point
         b = []
         for i in range(X.shape[0]):
             b_value = []
