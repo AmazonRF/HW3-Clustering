@@ -1,3 +1,6 @@
+![BuildStatus](https://github.com/AmazonRF/HW3-Clustering/actions/workflows/pytest.yml/badge.svg?event=push)
+
+
 # Assignment 3
 Implementation of KMeans and Silhouette Scoring
 
